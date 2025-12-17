@@ -1,74 +1,132 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pink Vibes ✨</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
   <style>
+    :root {
+      --pink-main: #ff4fa3;
+      --pink-light: #ffd1e6;
+      --pink-dark: #c2185b;
+      --bg-gradient: linear-gradient(135deg, #ffe4f0, #ffb6d9);
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
     body {
-      background-image: url('https://assets.bonappetit.com/photos/653814a0367e9e8eb8ad5115/16:9/w_1920,c_limit/Watermelon%20Palestine.jpg');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      font-family: sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+    }
+
+    .card {
+      background: white;
+      border-radius: 24px;
+      padding: 2.5rem;
+      width: 90%;
+      max-width: 420px;
+      box-shadow: 0 20px 40px rgba(255, 79, 163, 0.25);
       text-align: center;
+      animation: float 6s ease-in-out infinite;
     }
 
-    .container {
-      background: rgba(255, 255, 255, 0.8);
-      padding: 20px;
-      border-radius: 10px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+    h1 {
+      color: var(--pink-main);
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
     }
 
-    .title {
-      font-size: 50px;
-      color: #000000;
+    p {
+      font-size: 1rem;
+      opacity: 0.85;
     }
 
-    .email {
-      font-size: 30px;
-      color: #000000;
+    .counter {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--pink-dark);
+      margin: 1.5rem 0;
+    }
+
+    button {
+      background: var(--pink-main);
+      color: white;
+      border: none;
+      border-radius: 999px;
+      padding: 0.8rem 1.6rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 8px 20px rgba(255, 79, 163, 0.4);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(255, 79, 163, 0.55);
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .footer {
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+      opacity: 0.6;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
     }
   </style>
 </head>
 <body>
-  <div class="container" id="interactiveContent">
-    <div class="title"></div>
-    <div class="email"></div>
+
+  <div class="card">
+    <h1>Pink Vibes 💖</h1>
+    <p>A cute, dynamic website hosted on GitHub Pages</p>
+
+    <div class="counter" id="counter">0</div>
+
+    <button onclick="increment()">Add Some Love</button>
+
+    <div class="footer">Built with HTML • CSS • JS</div>
   </div>
 
   <script>
-    const titleText = "Contact us through";
-    const emailText = "palicoaltion@gmail.com";
+    let count = 0;
 
-    let titleElement = document.querySelector(".title");
-    let emailElement = document.querySelector(".email");
+    function increment() {
+      count++;
+      const counter = document.getElementById('counter');
+      counter.textContent = count;
 
-    function typeText(element, text, delay = 100) {
-      element.textContent = ""; // Clear existing text
-      let index = 0;
-
-      function addLetter() {
-        if (index < text.length) {
-          element.textContent += text[index];
-          index++;
-          setTimeout(addLetter, delay);
-        }
-      }
-
-      addLetter();
+      counter.animate([
+        { transform: 'scale(1)' },
+        { transform: 'scale(1.2)' },
+        { transform: 'scale(1)' }
+      ], {
+        duration: 250,
+        easing: 'ease-out'
+      });
     }
-
-    // Trigger the typing effect for the title and email
-    setTimeout(function() {
-      typeText(titleElement, titleText);
-    }, 1000); // Delay for 1 second
-
-    setTimeout(function() {
-      typeText(emailElement, emailText);
-    }, 3000); // Delay for 3 seconds
   </script>
+
 </body>
 </html>
-
