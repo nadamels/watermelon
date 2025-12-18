@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pink Vibes ✨</title>
 
-  <!-- Google Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -30,7 +29,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #333;
     }
 
     .card {
@@ -46,13 +44,7 @@
 
     h1 {
       color: var(--pink-main);
-      font-size: 2.2rem;
       margin-bottom: 0.5rem;
-    }
-
-    p {
-      font-size: 1rem;
-      opacity: 0.85;
     }
 
     .counter {
@@ -62,7 +54,8 @@
       margin: 1.5rem 0;
     }
 
-    button {
+    button, label.upload-btn {
+      display: inline-block;
       background: var(--pink-main);
       color: white;
       border: none;
@@ -71,23 +64,35 @@
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      margin: 0.5rem 0;
       box-shadow: 0 8px 20px rgba(255, 79, 163, 0.4);
     }
 
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 28px rgba(255, 79, 163, 0.55);
+    input[type="file"] {
+      display: none;
     }
 
-    button:active {
-      transform: scale(0.98);
+    .preview {
+      margin-top: 1rem;
     }
 
-    .footer {
-      margin-top: 1.5rem;
-      font-size: 0.8rem;
-      opacity: 0.6;
+    .preview img,
+    .preview video {
+      max-width: 100%;
+      border-radius: 16px;
+    }
+
+    .preview audio {
+      width: 100%;
+    }
+
+    .preview pre {
+      background: #ffe4f0;
+      padding: 1rem;
+      border-radius: 12px;
+      max-height: 200px;
+      overflow: auto;
+      text-align: left;
     }
 
     @keyframes float {
@@ -98,35 +103,71 @@
 </head>
 <body>
 
-  <div class="card">
-    <h1>Pink Vibes 💖</h1>
-    <p>A cute, dynamic website hosted on GitHub Pages</p>
+<div class="card">
+  <h1>Pink Vibes 💖</h1>
+  <p>Upload something cute</p>
 
-    <div class="counter" id="counter">0</div>
+  <div class="counter" id="counter">0</div>
+  <button onclick="increment()">Add Some Love</button>
 
-    <button onclick="increment()">Add Some Love</button>
+  <br>
 
-    <div class="footer">Built with HTML • CSS • JS</div>
-  </div>
+  <label class="upload-btn">
+    Upload File
+    <input type="file" onchange="previewFile(event)">
+  </label>
 
-  <script>
-    let count = 0;
+  <div class="preview" id="preview"></div>
+</div>
 
-    function increment() {
-      count++;
-      const counter = document.getElementById('counter');
-      counter.textContent = count;
+<script>
+  let count = 0;
 
-      counter.animate([
-        { transform: 'scale(1)' },
-        { transform: 'scale(1.2)' },
-        { transform: 'scale(1)' }
-      ], {
-        duration: 250,
-        easing: 'ease-out'
-      });
+  function increment() {
+    count++;
+    document.getElementById('counter').textContent = count;
+  }
+
+  function previewFile(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById('preview');
+    preview.innerHTML = '';
+
+    if (!file) return;
+
+    const url = URL.createObjectURL(file);
+
+    if (file.type.startsWith('image/')) {
+      const img = document.createElement('img');
+      img.src = url;
+      preview.appendChild(img);
+
+    } else if (file.type.startsWith('video/')) {
+      const video = document.createElement('video');
+      video.src = url;
+      video.controls = true;
+      preview.appendChild(video);
+
+    } else if (file.type.startsWith('audio/')) {
+      const audio = document.createElement('audio');
+      audio.src = url;
+      audio.controls = true;
+      preview.appendChild(audio);
+
+    } else if (file.type.startsWith('text/')) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const pre = document.createElement('pre');
+        pre.textContent = reader.result;
+        preview.appendChild(pre);
+      };
+      reader.readAsText(file);
+
+    } else {
+      preview.textContent = 'File uploaded, but preview not supported.';
     }
-  </script>
+  }
+</script>
 
 </body>
 </html>
